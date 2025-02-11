@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-DATABASE = 'database.db' # defining the database name
+DATABASE = 'database.db' # defining the database names
 
 
 # setting up db
