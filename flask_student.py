@@ -2,7 +2,7 @@ from flask import Flask,request, jsonify,g
 import sqlite3
 app = Flask(__name__)
 
-DATABASE = 'stu.db'
+DATABASE = 'students.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -26,7 +26,7 @@ def close_connection(exception):
 with app.app_context():   #this part of the code will start work when the falsk app start working 
     db = get_db()
     db.execute('CREATE TABLE IF NOT EXISTS students\
-        (id INTEGER AUTO INCREMENT PRIMARY KEY, name TEXT, class TEXT)')
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, class TEXT)')
     db.commit()
     
 
