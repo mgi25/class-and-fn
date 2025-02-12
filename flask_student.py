@@ -2,7 +2,7 @@ from flask import Flask,request, jsonify,g
 import sqlite3
 app = Flask(__name__)
 
-DATABASE = 'student.db'
+DATABASE = 'stu.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -26,7 +26,7 @@ def close_connection(exception):
 with app.app_context():   #this part of the code will start work when the falsk app start working 
     db = get_db()
     db.execute('CREATE TABLE IF NOT EXISTS students\
-        (id INTEGER AUTO INCREMENT PRIMARY KEY, name TEXT, ckass TEXT)')
+        (id INTEGER AUTO INCREMENT PRIMARY KEY, name TEXT, class TEXT)')
     db.commit()
     
 
@@ -46,6 +46,17 @@ def add_student():
     data = request.json
     if  'name' and 'class' not in data.keys():
         return jsonify({'error': 'NAME and CLASS fields are reqired'}), 400
+    
+    if data['name'].strip() == '' or data['class'].strip() == '':
+        return jsonify({'error':'name and class fields cannot be empty'}), 400
+    
+    db = get_db()
+    db.execute('INSERT INTO students (name,class) VALUES (?,?)',
+               [data['name'],data['class']])
+    db.commit()
+    
+    return jsonify({'message':f'student {data['name']} added succesfully'}), 201
+    
 
 if __name__ == '__main__':
     app.run(debug = True)
