@@ -25,8 +25,8 @@ def close_connection(exception):
 
 with app.app_context():   #this part of the code will start work when the falsk app start working 
     db = get_db()
-    db.execute('CREATE TABLE IF NOT EXIST students\
-        (id INTEGER PRIMARY KEY, name TEXT, ckass TEXT)')
+    db.execute('CREATE TABLE IF NOT EXISTS students\
+        (id INTEGER AUTO INCREMENT PRIMARY KEY, name TEXT, ckass TEXT)')
     db.commit()
     
 
@@ -39,7 +39,13 @@ def index():
 def get_all_students():
     db = get_db()
     students = db.execute('SELECT * from students').fetchall()
-    return students
+    return jsonify({'students':students})
+
+@app.route('/add-student',methods = ['POST'])
+def add_student():
+    data = request.json
+    if  'name' and 'class' not in data.keys():
+        return jsonify({'error': 'NAME and CLASS fields are reqired'}), 400
 
 if __name__ == '__main__':
     app.run(debug = True)
