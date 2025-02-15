@@ -31,7 +31,7 @@ def close_connection(exception):
 with app.app_context():
     db = get_db()
     db.execute('CREATE TABLE IF NOT EXISTS task\
-                (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT, description TEXT, start_date DATE, end_date DATE)')
+                (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT, description TEXT, start_date DATE, end_date DATE,status DEFAULT "pending")')
     db.commit()
 
 @app.route('/add-task',methods = ['POST'])
@@ -66,6 +66,21 @@ def search(id):
         return jsonify({'msg':'no id found'})
     return jsonify({'task':task})
     
+# status update
 
+
+@app.route('/status/<int:id>',methods =['PUT'])
+def status(id):
+    data = request.json
+    if not 'status' in data.keys():
+        return jsonify({'error':'cannot be empty'}),400
+    if 'status'in data.keys() and data['status'].strip() =='':
+        return jsonify({'error':'cannot be empty'}), 400
+    db = get_db()
+    if 'status' in data.keys():
+        db.execute('UPDATE task SET status = ? WHERE id = ?', [data['status'],id])
+        db.commit()
+        return jsonify({'msg':'status updated sucessfully'})
+    
 if __name__ == '__main__':
     app.run(debug=True)
