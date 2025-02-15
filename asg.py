@@ -81,6 +81,22 @@ def status(id):
         db.execute('UPDATE task SET status = ? WHERE id = ?', [data['status'],id])
         db.commit()
         return jsonify({'msg':'status updated sucessfully'})
-    
+
+
+#update description
+@app.route('/description/<int:id>',methods =['PUT'])
+def description(id):
+    data = request.json
+    if not 'description' in data.keys():
+        return jsonify({'error':'cannot be empty'}),400
+    if 'description'in data.keys() and data['description'].strip() =='':
+        return jsonify({'error':'cannot be empty'}), 400
+    db = get_db()
+    if 'description' in data.keys():
+        db.execute('UPDATE task SET description = ? WHERE id = ?', [data['description'],id])
+        db.commit()
+        return jsonify({'msg':'description updated sucessfully'})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
