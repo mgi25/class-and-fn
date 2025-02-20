@@ -27,3 +27,33 @@ for(let i=0; i<names.length;i++){
 names.forEach(name=>{
     console.log("****",name,"****");
 })
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
+function Hello(name){
+    console.log("Hello",name, "*!");
+}
+Hello("Alen")
+names.forEach(name=>{
+    Hello(name);
+})
+
+
+// Inserting
+
+names.push("Tarith");
+console.log(names);
+console.log(names.length);
+
+
+names.pop("Tarith");
+console.log(names);
+console.log(names.length);
+
+
+var sample_data = {
+    "names": names
+}
+
+sample_data.length = names.length;
+console.log(sample_data);
