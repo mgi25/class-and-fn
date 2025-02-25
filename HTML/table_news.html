@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Table News</title>
+    </head>
+    <body>
+        <table id="newsTable" border="1">
+            <tr>
+                <th>News</th>
+            </tr>
+        </table>
+        <script>
+            const url = "https://api.spaceflightnewsapi.net/v4/articles/"
+
+
+            async function getData() {
+
+                try{
+                    const response = await fetch(url);
+                    const json = await response.json();
+                    return json;
+                } catch (error) {
+                    console.error(error.message);
+                }
+            }
+            async function populateTable() {
+                let data = await getData();
+            console.log(data.results);
+                    }
+            populateTable();
+        </script>
+    </body>
+</html>
