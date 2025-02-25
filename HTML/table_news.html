@@ -25,12 +25,21 @@
                     console.error(error.message);
                 }
             }
+
+            let myTable = document.getElementById("newsTable")
+
             async function populateTable() {
                 let data = await getData();
                 for( let i = 0;i < data.results.length; i++){
                     console.log(data.results[i].id);
+                    let row = '<tr>\
+                        <td>' + data.results[i].id + '</td>\
+                        <td><img src = "' + data.results[i].image_url + '"height = "50px"</td>\
+                    </tr>';
+
+                    myTable.innerHTML += row;
                 }
-                    }
+            }
             populateTable();
         </script>
     </body>
