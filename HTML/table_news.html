@@ -27,7 +27,9 @@
             }
             async function populateTable() {
                 let data = await getData();
-            console.log(data.results);
+                for( let i = 0;i < data.results.length; i++){
+                    console.log(data.results[i].id);
+                }
                     }
             populateTable();
         </script>
